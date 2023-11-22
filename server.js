@@ -6,7 +6,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import compression from "compression";
 // import rateLimit from "express-rate-limit";
-// import csrf from "csurf";
+import csrf from "csurf";
 
 dotenv.config();
 
@@ -16,9 +16,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(limiter);
-// app.use("/csrf-endpoint", csrfProtection);
+app.use("/csrf-endpoint", csrfProtection);
 
-// const csrfProtection = csrf({ cookie: true });
+const csrfProtection = csrf({ cookie: true });
 
 // const limiter = rateLimit({
 //   windowMs: 15 * 60 * 1000,
@@ -70,12 +70,12 @@ function validateFormInput(name, email) {
 //   return str.replace(/<[^>]*>/g, "");
 // }
 
-// app.get("/get-csrf-token", (req, res) => {
-//   res.setHeader("Content-Type", "application/json");
-//   res.json({ csrfToken: req.csrfToken() });
+app.get("/get-csrf-token", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.json({ csrfToken: req.csrfToken() });
 
-//   console.log(req, res);
-// });
+  console.log(req, res);
+});
 
 app.options("/submitForm", (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
