@@ -77,6 +77,14 @@ function validateFormInput(name, email) {
 //   console.log(req, res);
 // });
 
+app.options("/submitForm", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "POST");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+
+  res.status(200).send();
+});
+
 app.post("/submitForm", async (req, res) => {
   const { name, email, message } = req.body;
 
