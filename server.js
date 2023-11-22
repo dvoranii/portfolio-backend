@@ -5,6 +5,8 @@ import nodemailer from "nodemailer";
 import cors from "cors";
 import dotenv from "dotenv";
 import compression from "compression";
+import rateLimit from "express-rate-limit";
+import sanitizeHtml from "sanitize-html";
 
 dotenv.config();
 
@@ -13,6 +15,14 @@ app.use(compression());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: "Too many requests from this IP, please try again after 15 minutes",
+});
+
+app.use(limiter);
 
 if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
   console.error(
@@ -40,6 +50,20 @@ function validateFormInput(name, email) {
 
 app.post("/submitForm", async (req, res) => {
   const { name, email, message } = req.body;
+
+  name = sanitizeHtml(name, {
+    allowedTags: [],
+    allowedAttributes: {},
+  });
+  email = sanitizeHtml(email, {
+    allowedTags: [],
+    allowedAttributes: {},
+  });
+  message = sanitizeHtml(message, {
+    allowedTags: [],
+    allowedAttributes: {},
+  });
+
   console.log(req.body);
   if (!validateFormInput(name, email)) {
     return res
@@ -88,7 +112,6 @@ app.post("/submitForm", async (req, res) => {
         to: email,
         subject: "Thank you for your interest!",
         text: "We have received your form submission. Thanks.",
-        // might need to spin back up my old email
       };
       transporter.sendMail(mailOptionsUser);
     }, 6000);
