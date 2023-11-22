@@ -51,25 +51,25 @@ function validateFormInput(name, email) {
   return isNameValid && isEmailValid;
 }
 
-function sanitizeString(str) {
-  return str.replace(
-    /[&<>"'/]/g,
-    (match) =>
-      ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;",
-        "/": "&#x2F;",
-      }[match])
-  );
-}
+// function sanitizeString(str) {
+//   return str.replace(
+//     /[&<>"'/]/g,
+//     (match) =>
+//       ({
+//         "&": "&amp;",
+//         "<": "&lt;",
+//         ">": "&gt;",
+//         '"': "&quot;",
+//         "'": "&#39;",
+//         "/": "&#x2F;",
+//       }[match])
+//   );
+// }
 
-function removeHtmlTags(str) {
-  if (str === null || str === "") return "";
-  return str.replace(/<[^>]*>/g, "");
-}
+// function removeHtmlTags(str) {
+//   if (str === null || str === "") return "";
+//   return str.replace(/<[^>]*>/g, "");
+// }
 
 app.get("/get-csrf-token", (req, res) => {
   res.json({ csrfToken: req.csrfToken() });
@@ -78,9 +78,9 @@ app.get("/get-csrf-token", (req, res) => {
 app.post("/submitForm", async (req, res) => {
   const { name, email, message } = req.body;
 
-  name = sanitizeString(removeHtmlTags(name));
-  email = sanitizeString(removeHtmlTags(email));
-  message = sanitizeString(removeHtmlTags(message));
+  // name = sanitizeString(removeHtmlTags(name));
+  // email = sanitizeString(removeHtmlTags(email));
+  // message = sanitizeString(removeHtmlTags(message));
 
   console.log(req.body);
   if (!validateFormInput(name, email)) {
