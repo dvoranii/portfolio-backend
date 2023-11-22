@@ -44,6 +44,10 @@ app.get("/", (req, res) => {
   res.send("Backend server is running.");
 });
 
+app.get("/get-csrf-token", csrfProtection, (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
+
 function validateFormInput(name, email) {
   const isNameValid = name && /^[A-Za-z\s]+$/.test(name);
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/.test(email);
@@ -70,13 +74,8 @@ function validateFormInput(name, email) {
 //   if (str === null || str === "") return "";
 //   return str.replace(/<[^>]*>/g, "");
 // }
-const generateCsrfToken = (req, res, next) => {
-  const token = req.csrfToken();
-  req.csrfTokenValue = token;
-  next();
-};
 
-app.post("/submitForm", csrfProtection, generateCsrfToken, async (req, res) => {
+app.post("/submitForm", csrfProtection, async (req, res) => {
   const { name, email, message } = req.body;
 
   // name = sanitizeString(removeHtmlTags(name));
