@@ -45,6 +45,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/get-csrf-token", csrfProtection, (req, res) => {
+  console.log(req.csrfToken());
   res.json({ csrfToken: req.csrfToken() });
 });
 
