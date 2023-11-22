@@ -72,6 +72,7 @@ function validateFormInput(name, email) {
 // }
 
 app.get("/get-csrf-token", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
   res.json({ csrfToken: req.csrfToken() });
 });
 
