@@ -6,6 +6,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import compression from "compression";
 import rateLimit from "express-rate-limit";
+import sanitizeHtml from "sanitize-html";
 
 dotenv.config();
 
@@ -49,6 +50,11 @@ function validateFormInput(name, email) {
 
 app.post("/submitForm", async (req, res) => {
   const { name, email, message } = req.body;
+
+  name = sanitizeHtml(name, { allowedTags: [], allowedAttributes: {} });
+  email = sanitizeHtml(email, { allowedTags: [], allowedAttributes: {} });
+  message = sanitizeHtml(message, { allowedTags: [], allowedAttributes: {} });
+
   console.log(req.body);
   if (!validateFormInput(name, email)) {
     return res
