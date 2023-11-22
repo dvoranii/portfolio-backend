@@ -5,7 +5,7 @@ import nodemailer from "nodemailer";
 import cors from "cors";
 import dotenv from "dotenv";
 import compression from "compression";
-import rateLimit from "express-rate-limit";
+// import rateLimit from "express-rate-limit";
 // import csrf from "csurf";
 
 dotenv.config();
@@ -15,16 +15,16 @@ app.use(compression());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(limiter);
+// app.use(limiter);
 // app.use("/csrf-endpoint", csrfProtection);
 
 // const csrfProtection = csrf({ cookie: true });
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  message: "Too many requests from this IP, please try again after 15 minutes",
-});
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000,
+//   max: 100,
+//   message: "Too many requests from this IP, please try again after 15 minutes",
+// });
 
 if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
   console.error(
