@@ -6,6 +6,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import compression from "compression";
 import rateLimit from "express-rate-limit";
+import csrf from "csurf";
 
 dotenv.config();
 
@@ -14,6 +15,9 @@ app.use(compression());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+const csrfProtection = csrf({ cookie: true });
+app.use("/csrf-endpoint", csrfProtection);
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -47,8 +51,37 @@ function validateFormInput(name, email) {
   return isNameValid && isEmailValid;
 }
 
+function sanitizeString(str) {
+  return str.replace(
+    /[&<>"'/]/g,
+    (match) =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+        "/": "&#x2F;",
+      }[match])
+  );
+}
+
+function removeHtmlTags(str) {
+  if (str === null || str === "") return "";
+  return str.replace(/<[^>]*>/g, "");
+}
+
+app.get("/get-csrf-token", (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
+
 app.post("/submitForm", async (req, res) => {
   const { name, email, message } = req.body;
+
+  name = sanitizeString(removeHtmlTags(name));
+  email = sanitizeString(removeHtmlTags(email));
+  message = sanitizeString(removeHtmlTags(message));
+
   console.log(req.body);
   if (!validateFormInput(name, email)) {
     return res
