@@ -15,17 +15,16 @@ app.use(compression());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(limiter);
+app.use("/csrf-endpoint", csrfProtection);
 
 const csrfProtection = csrf({ cookie: true });
-app.use("/csrf-endpoint", csrfProtection);
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
   message: "Too many requests from this IP, please try again after 15 minutes",
 });
-
-app.use(limiter);
 
 if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
   console.error(
