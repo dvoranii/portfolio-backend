@@ -13,7 +13,7 @@ dotenv.config();
 
 const app = express();
 app.use(compression());
-app.use(cors({ origin: "https://www.ildidev.com", credentials: true }));
+app.use(cors({ credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(limiter);
