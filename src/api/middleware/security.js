@@ -1,11 +1,8 @@
-export default function security(app) {
-  app.use((req, res, next) => {
-    res.setHeader("X-Frame-Options", "SAMEORIGIN");
-    res.setHeader(
-      "Content-Security-Policy",
-      "script-src 'self' https://cdnjs.cloudflare.com/; img-src 'self'; frame-ancestors 'none';"
-    );
+import helmet from "helmet";
 
+export default function security(app) {
+  app.use(helmet());
+  app.use((req, res, next) => {
     if (req.headers["user-agent"].indexOf("MSIE ") !== -1) {
       // IE workaround for frame detection
       res.write(
