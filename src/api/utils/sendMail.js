@@ -3,15 +3,13 @@ import nodemailer from "nodemailer";
 // Function to create and configure the transporter
 const createTransporter = () => {
   return nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.elasticemail.com",
+    port: 2525,
     auth: {
-      type: "OAuth2",
-      user: process.env.APP_USER,
-      clientId: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      refreshToken: process.env.REFRESH_TOKEN,
+      user: "ildidvorani@gmail.com",
+      pass: process.env.ELASTIC_PASS,
     },
-    // DEVELOPMENT ENVIRONMENT ONLY
+
     tls: {
       rejectUnauthorized: false,
     },
