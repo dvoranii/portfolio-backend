@@ -1,4 +1,4 @@
-import { fetch } from "node-fetch";
+import fetch from "node-fetch";
 
 const verifyRecaptcha = async (token) => {
   const secret = process.env.SECRET_KEY;
