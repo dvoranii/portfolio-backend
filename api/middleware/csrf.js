@@ -1,14 +1,14 @@
 import cookieParser from "cookie-parser";
 import csrf from "csurf";
-import bodyParser from "body-parser";
+// import bodyParser from "body-parser";
 
 const csrfProtection = csrf({ cookie: true });
 // this is probably the
-const parseForm = bodyParser.urlencoded({ extended: false });
+// const parseForm = bodyParser.urlencoded({ extended: false });
 
 const csrfMiddleware = (app) => {
   app.use(cookieParser());
-  app.use(parseForm);
+  // app.use(parseForm);
   app.use(csrfProtection);
 };
 
