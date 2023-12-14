@@ -8,6 +8,10 @@ import saveFormSubmission from "./utils/firestore.js";
 
 const router = express.Router();
 
+router.get("/", (req, res) => {
+  res.send("<h1>HELLO</h1>");
+});
+
 router.get("/csrf", (req, res) => {
   res.send({ csrfToken: req.csrfToken() });
 });
