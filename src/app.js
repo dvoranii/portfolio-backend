@@ -16,7 +16,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://ildidev.com"],
+    origin: ["http://localhost:5173", "https://www.ildidev.com"],
     credentials: true,
   })
 );
