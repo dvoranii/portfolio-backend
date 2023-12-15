@@ -25,7 +25,7 @@ app.use(
   })
 );
 
-csrfMiddleware(app);
+// csrfMiddleware(app);
 
 app.use("/", routes);
 

@@ -8,9 +8,9 @@ import saveFormSubmission from "./utils/firestore.js";
 
 const router = express.Router();
 
-router.get("/csrf", (req, res) => {
-  res.send({ csrfToken: req.csrfToken() });
-});
+// router.get("/csrf", (req, res) => {
+//   res.send({ csrfToken: req.csrfToken() });
+// });
 
 router.post("/process", async (req, res) => {
   let { name, email, message, recaptchaToken } = req.body;

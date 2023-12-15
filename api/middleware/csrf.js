@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 
 const csrfProtection = csrf({
   cookie: {
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
     httpOnly: true,
     sameSite: "Strict",
   },
