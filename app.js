@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import routes from "./api/routes.js";
-import csrfMiddleware from "./api/middleware/csrf.js";
+// import csrfMiddleware from "./api/middleware/csrf.js";
 import security from "./api/middleware/security.js";
 import compression from "compression";
 
